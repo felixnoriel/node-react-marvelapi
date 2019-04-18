@@ -1,0 +1,2 @@
+- This project is a base template of react with redux using create-react-app
+- Pull, npm install then npm start
