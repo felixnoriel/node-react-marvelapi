@@ -65,16 +65,26 @@ export async function getObject(ctx: Koa.Context, next: () => Promise<any>) {
 function queryParams(ctx: Koa.Context): string {
   let params: string = "";
   if (ctx.query.limit) {
-    params += `limit=${ctx.query.limit}`;
+    params += `&limit=${ctx.query.limit}`;
   }
   if (ctx.query.offset) {
-    params += `offset=${ctx.query.offset}`;
+    params += `&offset=${ctx.query.offset}`;
   }
   if (ctx.query.name) {
-    params += `name=${ctx.query.name}`;
+    params += `&name=${ctx.query.name}`;
   }
   if (ctx.query.orderBy) {
-    params += `orderBy=${ctx.query.orderBy}`;
+    params += `&orderBy=${ctx.query.orderBy}`;
+  }
+  if (ctx.query.searchText) {
+    const searchByName = ["characters", "creators", "events"];
+    const searchByTitle = ["comics", "series"];
+    if (searchByName.indexOf(ctx.params.entity_type) >= 0) {
+      params += `&nameStartsWith=${ctx.query.searchText}`;
+    }
+    if (searchByTitle.indexOf(ctx.params.entity_type) >= 0) {
+      params += `&titleStartsWith=${ctx.query.searchText}`;
+    }
   }
   return params;
 }

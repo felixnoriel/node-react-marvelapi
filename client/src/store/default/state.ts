@@ -81,12 +81,13 @@ export type DefaultDependencies = {
  * @param entityType
  */
 export function getList(
-  entityType: string
+  entityType: string,
+  searchText?: string
 ): ThunkAction<void, DefaultState, DefaultDependencies, DefaultAction> {
   return async (dispatch, getState, deps) => {
     dispatch(listAction.request());
     await deps.service
-      .fetchList(entityType)
+      .fetchList(entityType, searchText)
       .then(data => dispatch(listAction.success(data)))
       .catch(err => dispatch(listAction.failure(err.message)));
   };
