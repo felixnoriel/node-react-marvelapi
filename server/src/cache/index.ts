@@ -11,6 +11,13 @@ export default class Cache {
     });
   }
 
+  /**
+   * This function will get the data by key in memory cache using NodeCache
+   * If key doesn't exist, it will access the storeFunction cb, set the data using the key and return it
+   * @param key
+   * @param storeFunction
+   * @returns the data from the cache if exists otherwise from the callback
+   */
   async get(key: string, storeFunction: Promise<any>): Promise<any> {
     const value = this.cache.get(key);
     if (value) {
@@ -22,10 +29,17 @@ export default class Cache {
     return this.cache.get(key);
   }
 
+  /**
+   * Function will delete the cache by its key
+   * @param keys
+   */
   del(keys: Array<string> | string) {
     this.cache.del(keys);
   }
 
+  /**
+   * Function will empty the cache
+   */
   flush() {
     this.cache.flushAll();
   }

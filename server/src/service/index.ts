@@ -21,6 +21,11 @@ export default class Service {
     this.baseURL = config.MARVEL_API_URL!;
   }
 
+  /**
+   * Send a request from the API using got
+   * @param request
+   * @returns the response from the API request
+   */
   async sendRequest(request: Request): Promise<got.Response<any>> {
     const requestURL = this.baseURL + request.path + this.getAPICredentials();
     return await got(requestURL, {
@@ -31,6 +36,9 @@ export default class Service {
     });
   }
 
+  /**
+   * this function will return an authorization algorithm for marvel api
+   */
   private getAPICredentials(): string {
     const ts = new Date().getTime();
     return `&ts=${ts}&apikey=${config.MARVEL_API_PUBLIC_KEY}&hash=${md5(

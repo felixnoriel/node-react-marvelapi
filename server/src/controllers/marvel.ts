@@ -7,6 +7,12 @@ const cacheTTL = 60 * 60 * 1; // 1 hour
 const cacheService = new Cache(cacheTTL);
 const service = new Service();
 
+/**
+ * This function is a controller for the route /entity_type. eg: /characters/
+ * @param ctx
+ * @param next
+ * @returns the array of objects based from the query
+ */
 export async function getList(ctx: Koa.Context, next: () => Promise<any>) {
   try {
     const apiURL = `/v1/public/${ctx.params.entity_type}?${queryParams(ctx)}`;
@@ -25,6 +31,12 @@ export async function getList(ctx: Koa.Context, next: () => Promise<any>) {
   }
 }
 
+/**
+ * This function is a controller for the route /entity_type/entity_id. eg: /characters/12345
+ * @param ctx
+ * @param next
+ * @returns the object based from the query
+ */
 export async function getObject(ctx: Koa.Context, next: () => Promise<any>) {
   try {
     const apiURL = `/v1/public/${ctx.params.entity_type}/${
@@ -45,6 +57,11 @@ export async function getObject(ctx: Koa.Context, next: () => Promise<any>) {
   }
 }
 
+/**
+ *
+ * @param ctx
+ * This will check and get parameters by query
+ */
 function queryParams(ctx: Koa.Context): string {
   let params: string = "";
   if (ctx.query.limit) {
@@ -62,6 +79,11 @@ function queryParams(ctx: Koa.Context): string {
   return params;
 }
 
+/**
+ *
+ * @param url eg: /v1/public/characters
+ * This function will fetch the data from the API endpoint
+ */
 async function fetchData(url: string): Promise<any> {
   return await service.sendRequest({
     path: url,
